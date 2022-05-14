@@ -28,7 +28,7 @@ function rest(info) {
             return x
         }).join(', ')
     } else {
-        return "undefined"
+        return ""
     }
     // var filterValue = Object.assign({}, info, {
     //         level: undefined,
@@ -47,7 +47,7 @@ function rest(info) {
 }
 
 const formatStr = printf(info => {
-    return `${info.timestamp} ${info.level} ${info.message}: ${rest(info)}`
+    return `${info.timestamp} ${info.level} ${info.message} ${rest(info)}`
 });
 
 if (process.env.NODE_ENV === 'development') {
