@@ -1,0 +1,16 @@
+{
+    "name": "logger_winston_filename_line",
+    "version": "1.0.0",
+    "description": "get line number and filename for a log output",
+    "main": "index.js",
+    "scripts": {
+        "start": "NODE_ENV=development nodemon start",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "ledat",
+    "license": "MIT",
+    "dependencies": {
+        "express": "^4.18.1",
+        "winston": "^3.7.2"
+    }
+}
