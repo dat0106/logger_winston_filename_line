@@ -11,6 +11,14 @@ app.listen(port, function(error) {
     if (error) {
         logger.error("Something went wrong");
     }
+
+    
+    logger.debug("time taken");
+
+    logger.verbose("time taken");
+    logger.http("time taken");
+    logger.warn("time taken");
+    
     logger.info('hello', { value: 'world' });
     logger.info('hello', { value: 'world' }, { value: 'world' });
     logger.info(undefined);

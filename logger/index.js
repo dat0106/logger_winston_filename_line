@@ -1,21 +1,12 @@
 // NOTE: this adds a filename and line number to winston's output
 // Example output: 'info (routes/index.js:34) GET 200 /index'
 
-var logger = require('winston')
-const { format, createLogger, transports } = logger;
+const winston = require('winston')
+const { format, createLogger, transports } = winston;
 const { timestamp, combine, printf, errors } = format;
 var path = require('path')
-var PROJECT_ROOT = path.join(__dirname, '..')
+var PROJECT_ROOT = path.join(__dirname, '../')
 
-
-// logger.info('hello', { value: 'world' });
-// logger.info('hello', { value: 'world' }, { value: 'world' });
-// logger.info(undefined);
-// logger.info(null);
-// logger.info({});
-// logger.info("dat");
-// logger.info(1334);
-// helper for stringifying all remaining properties
 function rest(info) {
     if (info.stack != undefined) {
         return info.stack
@@ -51,16 +42,16 @@ const formatStr = printf(info => {
 });
 
 if (process.env.NODE_ENV === 'development') {
-    logger = logger.createLogger({
+    logger = winston.createLogger({
         // format: logger.format.json(),
         format: combine(
-            logger.format.colorize(),
-            logger.format.prettyPrint(),
+            winston.format.colorize(),
+            winston.format.prettyPrint(),
             timestamp({ format: 'HH:mm:ss' }),
             formatStr
         ),
         transports: [
-            new logger.transports.Console(),
+            new transports.Console({ level: 'debug' }),
             new transports.File({ filename: 'error.log', level: 'error' }),
             new transports.File({ filename: 'logfile.log' }),
         ]
@@ -101,6 +92,12 @@ module.exports.debug = module.exports.log = function() {
     logger.debug.apply(logger, formatLogArguments(arguments))
 }
 
+module.exports.http  = function() {
+    logger.http.apply(logger, formatLogArguments(arguments))
+}
+module.exports.verbose  = function() {
+    logger.verbose.apply(logger, formatLogArguments(arguments))
+}
 module.exports.info = function() {
     logger.info.apply(logger, formatLogArguments(arguments))
 }
@@ -126,7 +123,7 @@ function formatLogArguments(args) {
 
     if (stackInfo) {
         // get file path relative to project root
-        var calleeStr = '[./' + stackInfo.relativePath + ':' + stackInfo.line + ']'
+        var calleeStr = '[' + stackInfo.relativePath + ':' + stackInfo.line + ']'
 
         if (typeof(args[0]) === 'string') {
             args[0] = calleeStr + ' ' + args[0]
