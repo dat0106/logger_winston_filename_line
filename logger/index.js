@@ -57,10 +57,11 @@ if (process.env.NODE_ENV === 'development') {
         ]
     });
 } else {
-    logger = logger.createLogger({
+    logger = winston.createLogger({
         // format: logger.format.json(),
+            // format: logger.format.json(),
         transports: [
-            new logger.transports.Console(),
+            new transports.Console(),
             new transports.File({ filename: 'error.log', level: 'error' }),
             new transports.File({ filename: 'logfile.log' }),
         ]
